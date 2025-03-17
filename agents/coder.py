@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from role import Role
+from agents.base_role import Role
 
 class Coder(Role):
 
