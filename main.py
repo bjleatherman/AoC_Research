@@ -15,11 +15,12 @@ prompt='do your part to build a project that takes a user input from the console
 # print(response.response)
 # print(response.action.value)
 
+rg = RequirementsGatherer()
 
-response = RequirementsGatherer.send_message(prompt)
+response = rg.send_message(prompt)
 
-while response.action.value != RequirementsGatherer.ActionType.ALL_INFO_COLLECTED:
-    RequirementsGatherer.print_current_chat_history()
+while response.action.value != RequirementsGatherer.ActionType.INFO_COLLECTED:
+    rg.print_current_chat_history()
     user_response = input()
-    response = RequirementsGatherer.send_message(user_response)
+    response = rg.send_message(user_response)
 print(f'Action: {response.action.value}\nResponse: {response.response}')

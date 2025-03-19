@@ -6,22 +6,43 @@ from agents.base_role import Role
 
 class User_Facing_Role(Role):
     
-    @classmethod
-    def send_message(cls, query: str):
-        response_format = cls.build_response_format()
+    class ActionType(str, Enum):
+        REQUEST_MORE_INFO = 'request_info'
+        INFO_COLLECTED = 'info_collected'
+
+    def send_message(self, query: str):
+        response_format = self.build_response_format()
 
         response = MessageBuilder.build_send_message(
             query=query,
-            system_description=cls.description,
+            system_description=self.description,
             response_format=response_format, 
-            chat_history=cls.current_chat_history
+            chat_history=self.current_chat_history
         )
 
-        cls.log_message(role='user', user_content=query)
-        cls.log_message(role='system', response=response.response, action=response.action.value)
+        self.log_message(role='user', user_content=query)
+        self.log_message(role='system', response=response.response, action=response.action.value)
 
-        cls.process_response(response)
+        print(response.response)
+        print (response.action.value)
 
-    @classmethod
-    def process_response(cls, response):
-        print('processing')
+        if (response.action.value == self.ActionType.INFO_COLLECTED):
+            return response
+        else:
+            self.process_response(response)
+
+
+    def process_response(self, response):
+        if (response.action.value == self.ActionType.REQUEST_MORE_INFO):
+            questions = response.response.split(self.delimiter)
+            answers = []
+            count = 1
+            for question in questions:
+                print(f'{count}/ {len(questions)}')
+                answer = input(f'{question}: ')
+                answers.append(f'{question}: {answer}\n')
+                count += 1
+        self.send_message(''.join(answers))
+        
+
+

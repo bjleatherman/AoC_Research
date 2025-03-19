@@ -22,6 +22,8 @@ class MessageBuilder:
             full_chat.extend(chat_history)
         full_chat.append({'role':'user', 'content':query})
 
+        # print(full_chat)
+
         completion = client.beta.chat.completions.parse(
             model=model,
             messages=full_chat,
