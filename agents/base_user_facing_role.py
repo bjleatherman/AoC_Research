@@ -45,4 +45,5 @@ class User_Facing_Role(Role):
         self.send_message(''.join(answers))
         
 
-
+    def __init__(self, log_file):
+        super().__init__(log_file)

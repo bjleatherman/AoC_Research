@@ -8,8 +8,8 @@ class FunctionSignatureArchitect(Role):
 
     description='You are the function signature architect for a python project. Your job is to come up with the basic function signatures for a project, not to write any code. You will be asked to write some helpful function signatures that someone else will complete. Your functions should work together in a clear way If you dont have enough information to proceed ASK FOR MORE INFORMATION'
 
-    def __init__():
-            super().__init__()
+    def __init__(self, log_file):
+        super().__init__(log_file)
 
     @classmethod
     def get_fields(cls):

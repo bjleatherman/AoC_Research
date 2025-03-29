@@ -6,8 +6,8 @@ class FileArchitect(Role):
 
     description='You are the file scaffolding architect for a python project. Your job is to come up with the basic file architecture for a project, not to write any code. You will be asked to design some file scaffolding. If you dont have enough information to proceed ASK FOR MORE INFORMATION' 
 
-    def __init__():
-        super().__init__()
+    def __init__(self, log_file):
+        super().__init__(log_file)
 
     @classmethod
     def get_fields(cls):

@@ -11,9 +11,10 @@ class Role:
         REJECT = 'reject'
         REQUEST_MORE_INFO = 'request_more_info'
 
-    def __init__(self):
+    def __init__(self, log_file):
         self.current_chat_history = []
         self.archived_chat_history = []
+        self.log_file = log_file
 
     @staticmethod
     def get_fields(delimiter):
@@ -55,6 +56,11 @@ class Role:
         )
         return response_format
 
+    def handle_send_message(self, query):
+        response = self.send_message(query)
+        
+        return response.action.value
+        
     def send_message(self, query: str):
         response_format = self.build_response_format()
         response = MessageBuilder.build_send_message(
@@ -79,6 +85,9 @@ class Role:
 
         message = {'role': role, 'content': content}
         self.current_chat_history.append(message)
+
+        with open(self.log_file, 'a') as f:
+            f.write(f'{message}\n')
 
     def print_current_chat_history(self):
         for message in self.current_chat_history:
