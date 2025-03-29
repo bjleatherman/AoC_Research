@@ -15,6 +15,7 @@ class Role:
         self.current_chat_history = []
         self.archived_chat_history = []
         self.log_file = log_file
+        self.last_accepted_response
 
     @staticmethod
     def get_fields(delimiter):
@@ -57,9 +58,10 @@ class Role:
         return response_format
 
     def handle_send_message(self, query):
+
         response = self.send_message(query)
         
-        return response.action.value
+        return response
         
     def send_message(self, query: str):
         response_format = self.build_response_format()
@@ -73,7 +75,10 @@ class Role:
         self.log_message(role='user', user_content=query)
         self.log_message(role='system', response=response.response, action=response.action.value)
 
-        return response
+        if response.action.value == self.ActionType.ACCEPT:
+            self.last_accepted_response = response.response
+
+        return response.action.value
 
     def log_message(self, role, user_content='', response='', action=''):
         if user_content:

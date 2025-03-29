@@ -19,6 +19,8 @@ class Director():
         RETURN_CODE_ANSWER = 'return_code_answer'
         SIGNATURES_COLLECTED = 'signatures_collected'
         ALL_CODE_WRITTEN = 'all_code_written'
+
+    program_requirements = None
     
     def __init__(self, log_file):
         self.req_gatherer =  RequirementsGatherer(log_file)
@@ -58,15 +60,29 @@ class Director():
             case self.Events.READY:
                 prompt = self.get_initial_prompt()
                 result = self.req_gatherer.handle_send_message(prompt)
-                if result == self.Events.INFO_COLLECTED:
-                    self.req_gatherer.get_requirements_package
-
+                if result == self.Events.INFO_COLLECTED.value:
+                    self.current_state = self.States.REQ_GATHERING
+                    self.current_event = self.Events.READY
+                else:
+                    raise Exception('Requirements Gatherer returned an unhandled event')
+            case _:
+                raise Exception('Unhandled state transition')
             
     def handle_req_gathering(self, event, data):
-        pass
+        match event:
+            case self.Events.READY:
+                self.current_state = self.States.FUNC_SIGNATURES
+                self.current_event = self.Events.READY
+                self.program_requirements = self.req_gatherer.get_requirements_package()
+            case _:
+                raise Exception('Unhandled state transition')
             
     def handle_func_signatures(self, event, data):
-        pass
+        match event:
+            case self.Events.READY:
+                result = self.func_signatures.send_message()
+            case _:
+                raise Exception('Unhandled state transition')
             
     def handle_code(self, event, data):
         pass

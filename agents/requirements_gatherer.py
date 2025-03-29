@@ -56,7 +56,12 @@ class RequirementsGatherer(User_Facing_Role):
 
         response = MessageBuilder.build_send_message(
             query=query,
-            description=description,
+            system_description=description,
             response_format=RequirementsPackage,
             chat_history=self.current_chat_history
         )
+
+        self.log_message(role='user', user_content=query)
+        self.log_message(role='system', response=response.response, action=response.action.value)
+
+        return response.response

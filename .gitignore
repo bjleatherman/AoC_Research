@@ -4,6 +4,6 @@ __pycache__/
 
 unpack_logs.py
 
-.txt
+*.txt
 
 results
