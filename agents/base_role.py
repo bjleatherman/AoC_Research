@@ -84,3 +84,6 @@ class Role:
         for message in self.current_chat_history:
             content = message['content'].replace(self.delimiter, f"{self.delimiter}\n")
             print(f"[{message['role']}]: {content}")
+
+    def get_current_chat_history(self):
+        return self.current_chat_history
