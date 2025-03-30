@@ -4,19 +4,20 @@ from message_builder import MessageBuilder
 
 class Role:
     description = 'You have a generic role'
-    delimiter = ";"
 
     class ActionType(str, Enum):
         ACCEPT = 'accept'
-        REJECT = 'reject'
         REQUEST_MORE_INFO = 'request_more_info'
 
-    def __init__(self):
+    def __init__(self, log_file):
         self.current_chat_history = []
         self.archived_chat_history = []
+        self.delimiter = ";"
+        self.log_file = log_file
+        self.last_accepted_responsed = None
+        self.last_request_response = None
 
-    @staticmethod
-    def get_fields(delimiter):
+    def get_fields(self):
         return [ 
             {   
                 'name': 'response',
@@ -36,7 +37,7 @@ class Role:
         class_attrs = {}
 
         # Use instance's delimiter, allowing overrides at subclass level
-        fields = self.get_fields(self.delimiter)
+        fields = self.get_fields()
 
         for field in fields:
             annotations[field['name']] = field['type']
@@ -55,6 +56,12 @@ class Role:
         )
         return response_format
 
+    def handle_send_message(self, query):
+
+        response = self.send_message(query)
+        
+        return response
+        
     def send_message(self, query: str):
         response_format = self.build_response_format()
         response = MessageBuilder.build_send_message(
@@ -67,7 +74,13 @@ class Role:
         self.log_message(role='user', user_content=query)
         self.log_message(role='system', response=response.response, action=response.action.value)
 
-        return response
+        if response.action.value == self.ActionType.ACCEPT:
+            self.last_accepted_response = response.response
+
+        if response.action.value == self.ActionType.REQUEST_MORE_INFO:
+            self.last_request_response = response.response
+
+        return response.action.value
 
     def log_message(self, role, user_content='', response='', action=''):
         if user_content:
@@ -79,6 +92,9 @@ class Role:
 
         message = {'role': role, 'content': content}
         self.current_chat_history.append(message)
+
+        with open(self.log_file, 'a') as f:
+            f.write(f'{message}\n')
 
     def print_current_chat_history(self):
         for message in self.current_chat_history:

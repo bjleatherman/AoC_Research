@@ -11,25 +11,34 @@ class User_Facing_Role(Role):
         INFO_COLLECTED = 'info_collected'
 
     def send_message(self, query: str):
-        response_format = self.build_response_format()
 
-        response = MessageBuilder.build_send_message(
-            query=query,
-            system_description=self.description,
-            response_format=response_format, 
-            chat_history=self.current_chat_history
-        )
+        result = self.ActionType.REQUEST_MORE_INFO
+        loop_query = query
 
-        self.log_message(role='user', user_content=query)
-        self.log_message(role='system', response=response.response, action=response.action.value)
+        while (result == self.ActionType.REQUEST_MORE_INFO):
 
-        print(response.response)
-        print (response.action.value)
+            response_format = self.build_response_format()
 
-        if (response.action.value == self.ActionType.INFO_COLLECTED):
-            return response
-        else:
-            self.process_response(response)
+            response = MessageBuilder.build_send_message(
+                query=loop_query,
+                system_description=self.description,
+                response_format=response_format, 
+                chat_history=self.current_chat_history
+            )
+
+            self.log_message(role='user', user_content=query)
+            self.log_message(role='system', response=response.response, action=response.action.value)
+
+            # print(response.response)
+            # print (response.action.value)
+
+            if (response.action.value == self.ActionType.INFO_COLLECTED):
+                # print(f'DONE THIS IS THE RESPONSE ACTION: {response.action.value}')
+                result = self.ActionType.INFO_COLLECTED
+            else:
+                loop_query = self.process_response(response)
+
+        return result.value
 
 
     def process_response(self, response):
@@ -42,7 +51,10 @@ class User_Facing_Role(Role):
                 answer = input(f'{question}: ')
                 answers.append(f'{question}: {answer}\n')
                 count += 1
-        self.send_message(''.join(answers))
+        # action_value = self.send_message(''.join(answers))
+        return ''.join(answers)
+
         
 
-
+    def __init__(self, log_file):
+        super().__init__(log_file)

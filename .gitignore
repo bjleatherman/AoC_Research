@@ -1,3 +1,9 @@
 .env
 
 __pycache__/
+
+unpack_logs.py
+
+*.txt
+
+results
