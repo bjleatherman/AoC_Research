@@ -14,7 +14,7 @@ class Role:
         self.archived_chat_history = []
         self.delimiter = ";"
         self.log_file = log_file
-        self.last_accepted_responsed = None
+        self.last_accepted_response = None
         self.last_request_response = None
 
     def get_fields(self):
@@ -74,11 +74,14 @@ class Role:
         self.log_message(role='user', user_content=query)
         self.log_message(role='system', response=response.response, action=response.action.value)
 
-        if response.action.value == self.ActionType.ACCEPT:
+        if response.action.value == self.ActionType.ACCEPT.value:
             self.last_accepted_response = response.response
 
-        if response.action.value == self.ActionType.REQUEST_MORE_INFO:
-            self.last_request_response = response.response
+        try:
+            if response.action.value == self.ActionType.REQUEST_MORE_INFO:
+                self.last_request_response = response.response
+        except:
+            pass
 
         return response.action.value
 

@@ -207,12 +207,12 @@ class Director():
         )
 
         with open(cleaned_file_name, 'a') as f:
-            f.write(self.agent_fixer.last_accepted_responsed)
+            f.write(self.agent_fixer.last_accepted_response)
 
         print('Your Program is Finished')
 
     def get_initial_prompt(self):
-        return input('what do you want to build:\n')
+        return input('what do you want to build: ')
         # return 'do your part to build a project that takes a user input from the console and generates that number of the fibonacci sequence back out to the console in python 3.12. '
     
     def split_func_signatures(self):
