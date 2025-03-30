@@ -15,7 +15,7 @@ class User_Facing_Role(Role):
         result = self.ActionType.REQUEST_MORE_INFO
         loop_query = query
 
-        while (result == self.ActionType.REQUEST_MORE_INFO):
+        while (result == self.ActionType.REQUEST_MORE_INFO and self.annoyance_counter < 3):
 
             response_format = self.build_response_format()
 
@@ -35,10 +35,12 @@ class User_Facing_Role(Role):
             if (response.action.value == self.ActionType.INFO_COLLECTED):
                 # print(f'DONE THIS IS THE RESPONSE ACTION: {response.action.value}')
                 result = self.ActionType.INFO_COLLECTED
+                self.annoyance_counter = 0
             else:
                 loop_query = self.process_response(response)
+                self.annoyance_counter += 1 
 
-        return result.value
+        return self.ActionType.INFO_COLLECTED.value
 
 
     def process_response(self, response):
@@ -58,3 +60,5 @@ class User_Facing_Role(Role):
 
     def __init__(self, log_file):
         super().__init__(log_file)
+
+        self.annoyance_counter = 0

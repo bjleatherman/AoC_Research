@@ -42,6 +42,7 @@ class Director():
         self.question_for_user = None
         self.last_user_response = None
         self.initial_function_count = 0
+        self.code_file = code_file
 
     def start(self):
         self.loop()
@@ -116,6 +117,7 @@ class Director():
                 
         if result == self.Results.ACCEPT.value:
             self.raw_func_signatures = self.agent_func_signatures.last_accepted_response
+            self.split_func_signatures()
             self.current_state = self.States.CODE
             self.current_event = self.Events.READY
         elif result == self.Results.REQUEST_MORE_INFO:
@@ -128,10 +130,10 @@ class Director():
         
         result = None
 
-        print(f'Coding Function: {len(self.empty_functions)} of {self.initial_function_count}')
+        print(f'Functions Remaining: {len(self.empty_functions)} of {self.initial_function_count}')
 
         if len(self.empty_functions) == 0:
-            self.States.ACCEPT_PROGRAM
+            self.current_state = self.States.ACCEPT_PROGRAM
             return
 
         match event:
@@ -180,9 +182,11 @@ class Director():
         # return input('what do you want to build?)
         return 'do your part to build a project that takes a user input from the console and generates that number of the fibonacci sequence back out to the console in python 3.12. '
     
-    def parse_func_signatures(self):
+    def split_func_signatures(self):
+        cleaned_text = self.raw_func_signatures.replace('\r', '').replace('\n', '').strip()
         delimiter = self.agent_func_signatures.delimiter
-        self.empty_functions = self.raw_func_signatures.split(delimiter)
+        self.empty_functions = cleaned_text.split(delimiter)
+
         self.initial_function_count = len(self.empty_functions)
 
     def handle_user_question(self):
