@@ -179,8 +179,8 @@ class Director():
         print('Your Program is Finished')
 
     def get_initial_prompt(self):
-        # return input('what do you want to build?)
-        return 'do your part to build a project that takes a user input from the console and generates that number of the fibonacci sequence back out to the console in python 3.12. '
+        return input('what do you want to build?')
+        # return 'do your part to build a project that takes a user input from the console and generates that number of the fibonacci sequence back out to the console in python 3.12. '
     
     def split_func_signatures(self):
         cleaned_text = self.raw_func_signatures.replace('\r', '').replace('\n', '').strip()
