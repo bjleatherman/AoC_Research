@@ -33,7 +33,7 @@ class User_Facing_Role(Role):
             # print (response.action.value)
 
             if (response.action.value == self.ActionType.INFO_COLLECTED):
-                print(f'DONE THIS IS THE RESPONSE ACTION: {response.action.value}')
+                # print(f'DONE THIS IS THE RESPONSE ACTION: {response.action.value}')
                 result = self.ActionType.INFO_COLLECTED
             else:
                 loop_query = self.process_response(response)

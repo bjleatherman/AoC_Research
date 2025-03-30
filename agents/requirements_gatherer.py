@@ -22,16 +22,15 @@ class RequirementsGatherer(User_Facing_Role):
         REQUEST_MORE_INFO = 'request_info'
         INFO_COLLECTED = 'info_collected'
 
-    @staticmethod
-    def get_fields(delimiter):
+    def get_fields(self):
         return [
             {
                 'name':'response', 
                 'type':str, 
                 'description':'\n'.join([
                     f'This field contains the response to the prompt.',
-                    f'This field should contain a list of {delimiter} delimited messages for the user to answer.', 
-                    f'There should be NO OTHER FORMATTING OTHER THAN QUESTIONS BEING SEPARATED BY A {delimiter}.',
+                    f'This field should contain a list of {self.delimiter} delimited messages for the user to answer.', 
+                    f'There should be NO OTHER FORMATTING OTHER THAN QUESTIONS BEING SEPARATED BY A {self.delimiter}.',
                     f'This will be read in a console so it needs to be formatted appropriately.',
                     f'The conversation in this document will be used to generate a project.',
                     f'Please ask all of the questions that you will need to.'

@@ -4,21 +4,20 @@ from message_builder import MessageBuilder
 
 class Role:
     description = 'You have a generic role'
-    delimiter = ";"
 
     class ActionType(str, Enum):
         ACCEPT = 'accept'
-        REJECT = 'reject'
         REQUEST_MORE_INFO = 'request_more_info'
 
     def __init__(self, log_file):
         self.current_chat_history = []
         self.archived_chat_history = []
+        self.delimiter = ";"
         self.log_file = log_file
-        self.last_accepted_response
+        self.last_accepted_responsed = None
+        self.last_request_response = None
 
-    @staticmethod
-    def get_fields(delimiter):
+    def get_fields(self):
         return [ 
             {   
                 'name': 'response',
@@ -38,7 +37,7 @@ class Role:
         class_attrs = {}
 
         # Use instance's delimiter, allowing overrides at subclass level
-        fields = self.get_fields(self.delimiter)
+        fields = self.get_fields()
 
         for field in fields:
             annotations[field['name']] = field['type']
@@ -77,6 +76,9 @@ class Role:
 
         if response.action.value == self.ActionType.ACCEPT:
             self.last_accepted_response = response.response
+
+        if response.action.value == self.ActionType.REQUEST_MORE_INFO:
+            self.last_request_response = response.response
 
         return response.action.value
 
