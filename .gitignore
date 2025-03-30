@@ -6,4 +6,4 @@ unpack_logs.py
 
 *.txt
 
-results
+results*
