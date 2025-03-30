@@ -229,7 +229,7 @@ class Director():
 
         self.initial_function_count = len(self.empty_functions)
 
-    def handle_user_question(self):
+    def get_user_answer(self):
         self.last_user_response = input(self.question_for_user)
 
     def append_function_to_doc(self, func_string):

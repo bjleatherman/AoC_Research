@@ -3,7 +3,7 @@ from agents.base_role import Role
 
 class Coder(Role):
 
-    description='You are a python developer. If there is any ambiguity in the code that you are being asked to write, ask for clarity. You recieve a function signature with information about the format and types of arguments that a given function needs as well as a return type. Take the signature and write the corresponding funciton. The signatures that you are receiving are part of a bigger program. do not modify the signature or the return types. If you get the main() method signature in any variation, also add the function call in your response so the program will run'
+    description='You are a python developer. If there is any ambiguity in the code that you are being asked to write, ask for clarity. You receive a function signature with information about the format and types of arguments that a given function needs as well as a return type. Take the signature and write the corresponding function. The signatures that you are receiving are part of a bigger program. do not modify the signature or the return types. If you get the main() method signature in any variation, also add the function call in your response so the program will run'
     
     def get_fields(self):
         return [ 
