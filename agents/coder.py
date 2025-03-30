@@ -13,6 +13,7 @@ class Coder(Role):
                 'description': '\n'.join([
                     f'A string of python code or a clarifying question.', 
                     f'This field corresponds to the action field.', 
+                    f'DO NOT ADD ANYTHING TO THE END OF THE CODE THAT WOULD BREAK IT IF COMPILED.', 
                     f'If there is any ambiguity, please ask a followup question for clarification.', 
                     f'There should either be a question or a function with a signature and the function body here', 
                     f'Do not just assume that you know what to write. Clarify with the user what they are asking you to write.',
