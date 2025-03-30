@@ -15,7 +15,7 @@ class User_Facing_Role(Role):
         result = self.ActionType.REQUEST_MORE_INFO
         loop_query = query
 
-        while (result == self.ActionType.REQUEST_MORE_INFO and self.annoyance_counter < 1):
+        while (result == self.ActionType.REQUEST_MORE_INFO and self.annoyance_counter < 3):
 
             response_format = self.build_response_format()
 
