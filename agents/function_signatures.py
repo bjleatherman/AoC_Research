@@ -23,7 +23,8 @@ class FunctionSignatureArchitect(Role):
                 f'Each {self.delimiter} separated signature should be able to be pasted into a python document and run when other information is added'
                 f'This field corresponds to the create signatures action. ', 
                 f'Please ask follow up questions if you are unsure of what to do. The less ambiguity the better. Do not add anything other than semi-colon separated folder names here. ',
-                f'If you need more information about the project, do not add function signatures here, only ask your question',
+                f'If you need more information about the project, do not add function signatures here, only ask your question. ',
+                f'Be sure to add a main() method with whatever signature you deem fit. ',
             ])
         }
     ]
