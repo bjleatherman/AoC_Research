@@ -14,6 +14,7 @@ class RequirementsGatherer(User_Facing_Role):
         f'the gathered requirements clearly, specifying functional features, user interactions, '
         f'inputs and outputs, constraints, and assumptions. You are working in an agile environment, '
         f'so we don\'t need to waterfall the whole project. You are being too needy. Once there are a few good questions answered knock it off. This will be a console application written for python 3.12.4 with standard libraries available'
+        f'if a question could be considered stupid, maybe dont ask it. '
     )
 
     delimiter = ";"  # Easy to override if needed

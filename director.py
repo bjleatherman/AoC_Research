@@ -1,5 +1,6 @@
 from agents import *
 from enum import Enum
+import os
 
 class Director():
 
@@ -58,6 +59,9 @@ class Director():
             print(f'In State: {self.current_state}')
             print(f'With Event: {self.current_event}')
             print('----------')
+
+            if self.current_state == self.States.ACCEPT_PROGRAM:
+                self.handle_accept(self.current_event, self.current_data)
 
     
     def handleState(self, state, event, data):
@@ -185,7 +189,13 @@ class Director():
                             
     def handle_accept(self, event, data):
 
+        print(f'Cleaning code')
+
+        split_file_name = self.code_file.split('/')
+        cleaned_file_name = f'{split_file_name[0]}/{split_file_name[1]}/cleaned{split_file_name[2]}'
+
         program = None
+        
         with open(self.code_file, 'r') as f:
             program = f.read()
 
@@ -196,13 +206,13 @@ class Director():
                     program
         )
 
-        with open(f'cleaned_{self.code_file}', 'a') as f:
-            f.write(self.agent_fixer.last)
+        with open(cleaned_file_name, 'a') as f:
+            f.write(self.agent_fixer.last_accepted_responsed)
 
         print('Your Program is Finished')
 
     def get_initial_prompt(self):
-        return input('what do you want to build?')
+        return input('what do you want to build:\n')
         # return 'do your part to build a project that takes a user input from the console and generates that number of the fibonacci sequence back out to the console in python 3.12. '
     
     def split_func_signatures(self):
