@@ -145,7 +145,7 @@ class Director():
                 result = self.agent_coder.send_message(
                     f'program requirements:\n' +
                     self.program_requirements + '\n' +
-                    'answer from user:\n'
+                    'answer from user:\n' +
                     self.last_user_response
                 )
 
