@@ -46,6 +46,12 @@ class Director():
         self.initial_function_count = 0
         self.code_file = code_file
 
+        self.split_file_name = self.code_file.split('/')
+        self.file_id_message = f'# FILE: {self.split_file_name[2]}\n'
+
+        with open(self.code_file, 'a') as f:
+            f.write(self.file_id_message)
+
     def start(self):
         self.loop()
     
@@ -207,6 +213,7 @@ class Director():
         )
 
         with open(cleaned_file_name, 'a') as f:
+            f.write(self.file_id_message)
             f.write(self.agent_fixer.last_accepted_response)
 
         print('Your Program is Finished')

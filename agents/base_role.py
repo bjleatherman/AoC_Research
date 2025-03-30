@@ -17,6 +17,11 @@ class Role:
         self.last_accepted_response = None
         self.last_request_response = None
 
+        split_file_name = self.log_file.split('/')
+
+        with open(self.log_file, 'a') as f:
+            f.write(f'# FILE: {split_file_name[2]}\n')
+
     def get_fields(self):
         return [ 
             {   
