@@ -192,7 +192,7 @@ class Director():
         print(f'Cleaning code')
 
         split_file_name = self.code_file.split('/')
-        cleaned_file_name = f'{split_file_name[0]}/{split_file_name[1]}/cleaned{split_file_name[2]}'
+        cleaned_file_name = f'{split_file_name[0]}/{split_file_name[1]}/cleaned_{split_file_name[2]}'
 
         program = None
         
