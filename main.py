@@ -7,7 +7,7 @@ from datetime import datetime
 
 prompt='do your part to build a project that takes a user input from the console and generates that number of the fibonacci sequence back out to the console. Do not use any libraries'
 
-date = datetime.now().strftime('%y-%m-%d %H_%M%S')
+date = datetime.now().strftime('%y-%m-%d_%H-%M-%S')
 log_file = f'results/log/test_{date}.txt'
 code_file = f'results/code/test_{date}.py'
 

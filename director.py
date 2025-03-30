@@ -33,6 +33,7 @@ class Director():
         self.agent_req_gatherer =  RequirementsGatherer(log_file)
         self.agent_func_signatures = FunctionSignatureArchitect(log_file)
         self.agent_coder = Coder(log_file)
+        self.agent_fixer = Fixer(log_file)
         self.current_state = self.States.WAIT_FOR_USER
         self.current_event = self.Events.READY
         self.current_data = None
@@ -52,6 +53,11 @@ class Director():
         while(self.current_state != self.States.ACCEPT_PROGRAM):
             
             self.handleState(self.current_state, self.current_event, self.current_data)
+            
+            print('----------')
+            print(f'In State: {self.current_state}')
+            print(f'With Event: {self.current_event}')
+            print('----------')
 
     
     def handleState(self, state, event, data):
@@ -103,6 +109,8 @@ class Director():
 
         result = None
 
+        print('Sending Message to Functions Agent')
+        
         match event:
             case self.Events.READY:
                 result = self.agent_func_signatures.send_message(
@@ -176,6 +184,21 @@ class Director():
                 raise Exception('Unhandled state transition')
                             
     def handle_accept(self, event, data):
+
+        program = None
+        with open(self.code_file, 'r') as f:
+            program = f.read()
+
+        result = self.agent_fixer.send_message(
+                    f'program requirements:\n' +
+                    self.program_requirements + '\n' +
+                    'program to check:\n' +
+                    program
+        )
+
+        with open(f'cleaned_{self.code_file}', 'a') as f:
+            f.write(self.agent_fixer.last)
+
         print('Your Program is Finished')
 
     def get_initial_prompt(self):
